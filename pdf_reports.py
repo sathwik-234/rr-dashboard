@@ -8,8 +8,8 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
 import datetime as dt
 
-pdfmetrics.registerFont(TTFont('Signika-Bold', 'C:/Users/SATHWIK/Downloads/Signika/static/Signika-Bold.ttf'))
-pdfmetrics.registerFont(TTFont('Signika-SemiBold', 'C:/Users/SATHWIK/Downloads/Signika/static/Signika-SemiBold.ttf'))
+pdfmetrics.registerFont(TTFont('Signika-Bold', './Signika-Bold.ttf'))
+pdfmetrics.registerFont(TTFont('Signika-SemiBold', './Signika-SemiBold.ttf'))
 
 def first_page_heading(canvas, doc):
     canvas.setFont("Signika-Bold", 24)
