@@ -1,85 +1,46 @@
 import streamlit as st
 
-# Custom CSS to style the layout and content
+# Inject custom CSS
 st.markdown(
     """
     <style>
-    /* Adjust margins and padding */
+    /* Remove top margin */
     .block-container {
-        padding-top: 2rem;
-        padding-left: 2rem;
-        padding-right: 2rem; /* Add balanced side padding */
+        padding-top: 12rem;
     }
-    /* Center-align the title */
-    # .stTitle {
-    #     text-align: center;
-    #     font-size: 2.5rem; /* Larger font for emphasis */
-    #     color: #4CAF50; /* Professional green color */
-    # }
-    # /* Style for the description section */
-    # .description {
-    #     font-size: 1.2rem;
-    #     line-height: 1.6;
-    #     text-align: justify;
-    #     color: #333333; /* Dark gray for readability */
-    #     background-color: #f9f9f9; /* Light gray background for contrast */
-    #     border: 1px solid #e0e0e0;
-    #     border-radius: 8px;
-    #     padding: 1.5rem;
-    #     margin-top: 1rem;
-    #     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    # }
-    # /* Style for the action button */
-    # div.stButton > button {
-    #     background-color: #4CAF50; /* Green background */
-    #     color: white; /* White text */
-    #     border: none;
-    #     border-radius: 8px;
-    #     padding: 0.7rem 1.5rem;
-    #     font-size: 1rem;
-    #     font-weight: bold;
-    #     cursor: pointer;
-    #     transition: 0.3s;
-    # }
-    # div.stButton > button:hover {
-    #     background-color: #45a049; /* Darker green on hover */
-    # }
+    /* Center-align title */
+    .stTitle {
+        text-align: center;
+    }
+    /* Align columns neatly */
+    .stColumns > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    /* Style for the line separating sections */
+    .section-divider {
+        border: 1px solid #ddd;
+        margin: 20px 0;
+    }
+    /* Center the image */
+    .center-img {
+        display: flex;
+        justify-content: center;
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# App Title
-st.title("Running Room Dashboard 🔍")
+# Create two columns
+col1, col2 = st.columns(2)
 
-# Description Section
-st.write(
-    """
-    <div class="description">
-        <p><strong>Welcome to the Room Booking Platform for Running Rooms</strong>, developed by <em>East Coast Railway, Waltair Division</em>. This platform is designed to offer a seamless and efficient lodging experience for crew members and officials. It streamlines the booking process while catering to their specific needs.</p>
-        <p>Equipped with advanced functionalities, the system enables real-time monitoring of bed availability and minimizes waiting times, ensuring timely rest for the crew. Transitioning from manual calculations, the software now proficiently automates key metrics, including:</p>
-        <ul>
-            <li>Crew counts by HQ</li>
-            <li>Running room rest durations</li>
-            <li>Meal consumption tracking</li>
-            <li>Bedsheet and blanket utilization</li>
-            <li>Peak occupancy analysis for any specified period</li>
-        </ul>
-        <p>This system is designed to enhance operational efficiency and support effective management.</p>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-# Action Button
-st.markdown("### Actions:")
-
-col1,col2 = st.columns(2)
+# In the first column, display the image (use markdown with the center-img class for centering)
 with col1:
-    x = st.page_link( "Report_1.py",label="Meals Report",icon= "🍽️")
-    x = st.page_link( "Report_2.py",label="Lenin Report",icon= "🛏️")
+    st.markdown("<div class='center-img'><img src='https://media.9curry.com/uploads/organization/image/928/eastcoastrailway.png' width='200'></div>", unsafe_allow_html=True)
 
+# In the second column, display the text and center it using markdown
 with col2:
-    x = st.page_link( "Report_4.py",label="Rest Report",icon= "📊")
-    x = st.page_link( "Report_5.py",label="Peak Occupation",icon= "📄")
-
+    st.markdown("<h1 style='text-align: center;'>Vizianagaram Running Room</h1>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center;'>Waltair Division</h3>", unsafe_allow_html=True)

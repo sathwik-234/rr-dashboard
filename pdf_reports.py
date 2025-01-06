@@ -29,20 +29,28 @@ def table_generator(name, df):
     # Convert DataFrame into data format for the table
     data = [df.columns.tolist()] + df.values.tolist()
 
-    # Initialize total_diff for Rest Report calculation
+    # Initialize total_diff and average_diff for Rest Report calculations
     total_diff = 0
+    average_diff = 0
 
-    # Only if the report is "Rest Report", sum the Diff column
+    # Only if the report is "Rest Report", calculate total and average of the Diff column
     if name == "Rest Report":
         if 'Difference' in df.columns:
             total_diff = df['Difference'].sum()
+            average_diff = df['Difference'].mean() if len(df) > 0 else 0
         else:
             total_diff = 0
+            average_diff = 0
 
-        # Add a row at the end with the total of the 'Diff' column
+        # Add a row at the end with the total of the 'Difference' column
         total_row = [''] * len(df.columns)  # Empty values for all columns
-        total_row[df.columns.get_loc('Difference')] = f"Total: {total_diff:.2f} hours"  # Insert total at the Diff column
+        total_row[df.columns.get_loc('Difference')] = f"Total: {total_diff:.2f} hours"
         data.append(total_row)
+
+        # Add a row at the end with the average of the 'Difference' column
+        average_row = [''] * len(df.columns)  # Empty values for all columns
+        average_row[df.columns.get_loc('Difference')] = f"Average: {average_diff:.2f} hours"
+        data.append(average_row)
 
     # Layout calculations for column widths
     page_width = A4[0]
@@ -54,7 +62,7 @@ def table_generator(name, df):
 
     # Specific column width adjustments based on report name
     try:
-        if(name == "Meals Report"):
+        if name == "Meals Report":
             cmsid_index = df.columns.get_loc('CMS ID')
             crewname_index = df.columns.get_loc('Crew Name')
             checkin_index = df.columns.get_loc('CheckIn Time')
@@ -65,13 +73,13 @@ def table_generator(name, df):
             col_widths[checkin_index] = available_width * 0.14
             col_widths[checkout_index] = available_width * 0.14
 
-            remaining_width = available_width - col_widths[cmsid_index] - col_widths[crewname_index]- col_widths[checkin_index] - col_widths[checkout_index]
+            remaining_width = available_width - col_widths[cmsid_index] - col_widths[crewname_index] - col_widths[checkin_index] - col_widths[checkout_index]
             remaining_columns = num_columns - 4 
             remaining_equal_width = remaining_width / remaining_columns if remaining_columns > 0 else 0
             for i in range(num_columns):
-                if i != cmsid_index and i != crewname_index and i != checkin_index and i != checkout_index:
+                if i not in {cmsid_index, crewname_index, checkin_index, checkout_index}:
                     col_widths[i] = remaining_equal_width
-        elif(name == "Linen Report"):
+        elif name == "Linen Report":
             cmsid_index = df.columns.get_loc('CMS ID')
             crewname_index = df.columns.get_loc('Crew Name')
             checkin_index = df.columns.get_loc('CheckIn Time')
@@ -80,13 +88,13 @@ def table_generator(name, df):
             col_widths[crewname_index] = available_width * 0.28 
             col_widths[checkin_index] = available_width * 0.14
 
-            remaining_width = available_width - col_widths[cmsid_index] - col_widths[crewname_index]- col_widths[checkin_index]
+            remaining_width = available_width - col_widths[cmsid_index] - col_widths[crewname_index] - col_widths[checkin_index]
             remaining_columns = num_columns - 3 
             remaining_equal_width = remaining_width / remaining_columns if remaining_columns > 0 else 0
             for i in range(num_columns):
-                if i != cmsid_index and i != crewname_index and i != checkin_index:
+                if i not in {cmsid_index, crewname_index, checkin_index}:
                     col_widths[i] = remaining_equal_width
-        elif(name == "Rest Report"):
+        elif name == "Rest Report":
             cmsid_index = df.columns.get_loc('CMS ID')
             crewname_index = df.columns.get_loc('Crew Name')
             checkin_index = df.columns.get_loc('CheckIn Time')
@@ -97,11 +105,11 @@ def table_generator(name, df):
             col_widths[checkin_index] = available_width * 0.14
             col_widths[checkout_index] = available_width * 0.14
 
-            remaining_width = available_width - col_widths[cmsid_index] - col_widths[crewname_index]- col_widths[checkin_index] - col_widths[checkout_index]
+            remaining_width = available_width - col_widths[cmsid_index] - col_widths[crewname_index] - col_widths[checkin_index] - col_widths[checkout_index]
             remaining_columns = num_columns - 4 
             remaining_equal_width = remaining_width / remaining_columns if remaining_columns > 0 else 0
             for i in range(num_columns):
-                if i != cmsid_index and i != crewname_index and i != checkin_index and i != checkout_index:
+                if i not in {cmsid_index, crewname_index, checkin_index, checkout_index}:
                     col_widths[i] = remaining_equal_width
         else:
             print(f"Report name '{name}' not recognized. Applying default column widths.")
@@ -113,7 +121,7 @@ def table_generator(name, df):
     table = Table(data, colWidths=col_widths, hAlign='CENTER', vAlign='MIDDLE')
 
     # Apply the styling to the table
-    table.setStyle(TableStyle([  # Apply styling here
+    table.setStyle(TableStyle([  
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),

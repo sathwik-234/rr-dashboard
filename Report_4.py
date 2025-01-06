@@ -23,7 +23,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title("Linen Report 🛌")
+st.title("Rest Report 📊")
 st.markdown("---")
 st.write(f"**📅 Today's Date:** {dt.datetime.now().date().strftime('%d/%m/%Y')}")
 
@@ -100,7 +100,7 @@ if st.session_state.submitted:
             st.download_button(
                 label="Download Report",
                 data=pdf_data,
-                file_name="Rest_Report.pdf",
+                file_name=f"Rest_Report_{dt.datetime.now().strftime('%d-%m-%Y_%H-%M-%S')}.pdf",
                 mime="application/pdf",
             )
         else:
