@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import datetime
 from supabaseClient import supabase
+import pytz
 
 # Fetch occupancy data
 def fetch_occupancy_data():
@@ -36,7 +37,8 @@ from datetime import datetime
 
 def log_room_hold_data(room_no, status):
     try:
-        now = datetime.now().isoformat()
+        ist = pytz.timezone("Asia/Kolkata")
+        now = datetime.now(ist).isoformat()
 
         if status: 
             response = supabase.table("RoomHoldData").insert({
